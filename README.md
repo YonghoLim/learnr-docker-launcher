@@ -10,7 +10,17 @@ Build the app on the same operating system you want to distribute:
 - Build the macOS app on macOS.
 - Build the Windows app on Windows.
 
-PyInstaller does not reliably cross-compile macOS apps from Windows or Windows apps from macOS.
+PyInstaller does not reliably cross-compile macOS apps from Windows or Windows apps from macOS. A Windows `.exe` must be built in a Windows environment because PyInstaller bundles the Windows Python runtime, DLLs, and Tk libraries.
+
+You can edit the source code on macOS, but build the distributable Windows executable on:
+
+- A Windows computer
+- A Windows virtual machine on your Mac
+- A Windows CI runner, such as GitHub Actions
+
+Docker does not change this unless the build is running in a real Windows environment on a Windows host. A Linux container on macOS cannot produce a proper PyInstaller Windows executable.
+
+If you see a folder named like `dist/MA214 Tutorial Launcher_Win` after building on macOS, do not assume it is a Windows build. Check the contents: files such as `.dylib` or `*-darwin.so` mean it is still a macOS build artifact and will not run as a Windows `.exe`.
 
 ## Requirements
 
